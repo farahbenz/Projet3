@@ -1,0 +1,7 @@
+[INFO ] 2019-03-10 18:47:44.505 [main] Main - Message d'information 
+[INFO ] 2019-03-10 18:47:44.505 [main] Main - Message d'information 
+[WARN ] 2019-03-10 18:47:44.509 [main] Main - warn
+[WARN ] 2019-03-10 18:47:44.509 [main] Main - warn
+[DEBUG] 2019-03-10 18:47:44.509 [main] Main - debug
+[ERROR] 2019-03-10 18:47:44.509 [main] Main - error
+[ERROR] 2019-03-10 18:47:44.509 [main] Main - error
