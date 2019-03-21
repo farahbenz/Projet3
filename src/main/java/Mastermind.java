@@ -12,7 +12,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class Mastermind extends Jeux {
 
-    private static final Logger logger = LogManager.getLogger(PlusOuMoins.class);
+    private static final Logger logger = LogManager.getLogger(Mastermind.class);
 
 
     public Mastermind() {
@@ -29,9 +29,8 @@ public class Mastermind extends Jeux {
 
         int selectionMode;
 
-        Scanner sc = new Scanner(System.in);
-
         while(true) {
+            Scanner sc = new Scanner(System.in);
 
             System.out.println("Veuillez choisir un mode de jeu ");
             System.out.println("1 - Mode challenger ");
@@ -42,9 +41,6 @@ public class Mastermind extends Jeux {
                 break;
             } catch (InputMismatchException ime) {
                 System.out.println("!!La valeur saisie n'est pas une valeur numérique!! Réessayez ");
-            }
-            finally {
-                sc.nextLine();
             }
         }
         displayMode(selectionMode);
@@ -83,133 +79,42 @@ public class Mastermind extends Jeux {
     public void challenger() throws IOException {
         logger.info("Vous avez choisi le mode challenger");
 
-        Map<String, String> mapParameteres = ReadPropertyFile.getListeParametres();
-        String nbCaseMaster = mapParameteres.get("nbCaseMaster");
-
-        Random rand = new Random();
-
-        switch (nbCaseMaster) {
-            case "4":
-                System.out.println("-- Vous devez selectionner une combinaison à 4 chiffres --");
-                solutionPossible = rand.nextInt(899);
-                solutionPossible += 1000;
-                vtm = 4;
-                break;
-            case "5":
-                System.out.println("-- Vous devez selectionner une combinaison à 5 chiffres --");
-                solutionPossible = rand.nextInt(8999);
-                solutionPossible += 10000;
-                vtm = 5;
-                break;
-            case "6":
-                System.out.println("-- Vous devez selectionner une combinaison à 6 chiffres --");
-                solutionPossible = rand.nextInt(89999);
-                solutionPossible += 100000;
-                vtm = 6;
-                break;
-            case "7":
-                System.out.println("-- Vous devez selectionner une combinaison à 7 chiffres --");
-                solutionPossible = rand.nextInt(899999);
-                solutionPossible += 1000000;
-                vtm = 7;
-                break;
-            case "8":
-                System.out.println("-- Vous devez selectionner une combinaison à 8 chiffres --");
-                solutionPossible = rand.nextInt(8999999);
-                solutionPossible += 10000000;
-                vtm = 8;
-                break;
-            case "9":
-                System.out.println("-- Vous devez selectionner une combinaison à 9 chiffres --");
-                solutionPossible = rand.nextInt(89999999);
-                solutionPossible += 100000000;
-                vtm = 9;
-                break;
-            case "10":
-                System.out.println("-- Vous devez selectionner une combinaison à 10 chiffres --");
-                solutionPossible = rand.nextInt(899999999);
-                solutionPossible += 1000000000;
-                vtm = 10;
-                break;
-
-        }
-
-
-        String nbEssai = mapParameteres.get("nbEssai");
-        int choixEssai = 2;
-
-        switch (nbEssai){
-            case "1":
-                nbEssaies = 1;
-            case "2":
-                nbEssaies = 2;
-            case "3":
-                nbEssaies = 3;
-            case "4":
-                nbEssaies = 4;
-            case "5":
-                nbEssaies = 5;
-            case "6":
-                nbEssaies = 6;
-
-        }
+        choixCombinaisonOrdinateur();
+        choixNombreEssai();
 
         solutionDonné = Integer.toString(solutionPossible);
-
-        String modeDeveloppeur = mapParameteres.get("modeDeveloppeur");
-
-        if (modeDeveloppeur.equals("true")) {
-            System.out.println("( Combinaison secrete: " + solutionDonné + " )");
-        }
-
-
         solution = solutionDonné.split("");
         length = solution.length;
-
-        String[] proposition;
-
-
-        List<String> propositionAsList = Arrays.asList(solution);
 
         System.out.println("A vous de jouer !");
 
         while (wellPlaced != vtm && choixEssai <= nbEssaies ) {
-
-            int n;
-
             while (true) {
+
                 Scanner reader = new Scanner(System.in);
+                choixCombinaisonUtilisateur();
+
                 try {
-                    n = reader.nextInt();
+                    combinaisonSecrete = reader.nextInt();
                     break;
                 } catch (InputMismatchException ime) {
                     System.out.println("!!La valeur saisie n'est pas une valeur numérique!! Réessayez");
-                } finally {
-                    reader.nextLine();
                 }
             }
+            proposition = Integer.toString(combinaisonSecrete).split("");
 
-            proposition = Integer.toString(n).split("");
-            present = 0;
-            wellPlaced = 0;
-            for (int i = 0; i < length; i++) {
+            resultat();
 
-                if (solution[i].equals(proposition[i])) {
-                    wellPlaced++;
-                } else if (propositionAsList.contains(proposition[i]))
-                    present ++;
-
-            }
             if (present == 0 && wellPlaced == 1) {
-                System.out.println("Proposition : " + n + " -> Reponse : " + wellPlaced + "  bien placé");
+                System.out.println("Proposition : " + combinaisonSecrete + " -> Reponse : " + wellPlaced + "  bien placé");
             } else if (present == 0 && wellPlaced <= 3) {
-                System.out.println("Proposition : " + n + " -> Reponse : " + wellPlaced + " bien placés");
+                System.out.println("Proposition : " + combinaisonSecrete + " -> Reponse : " + wellPlaced + " bien placés");
             } else if (present == 1 && wellPlaced <= 3) {
-                System.out.println("Proposition : " + n + " -> Reponse : " + present + " présent," + wellPlaced + " bien placés");
+                System.out.println("Proposition : " + combinaisonSecrete + " -> Reponse : " + present + " présent," + wellPlaced + " bien placés");
             } else if (present <= 3 && wellPlaced <= 3) {
-                System.out.println("Proposition : " + n + " -> Reponse : " + present + " présents, " + wellPlaced + " bien placés");
+                System.out.println("Proposition : " + combinaisonSecrete + " -> Reponse : " + present + " présents, " + wellPlaced + " bien placés");
             } else if (present > 1 && wellPlaced == 0) {
-                System.out.println("Proposition :" + n + " -> Reponse : " + present + " présents");
+                System.out.println("Proposition :" + combinaisonSecrete + " -> Reponse : " + present + " présents");
             }
 
             choixEssai ++;
@@ -226,174 +131,54 @@ public class Mastermind extends Jeux {
      * L'attaquant est l'ordinateur et doit deviner la combinaison secrete choisi par le defenseur.
      */
 
-            @Override
-            public void defenseur () throws IOException {
-                logger.info("Vous avez choisi le mode defenseur");
-                Map<String, String> mapParameteres = ReadPropertyFile.getListeParametres();
-                String nbCaseMaster = mapParameteres.get("nbCaseMaster");
-                while (true) {
+    @Override
+    public void defenseur () throws IOException {
+        logger.info("Vous avez choisi le mode defenseur");
+        while (true) {
+            System.out.println("Entrez votre combinaison secrete");
+            Scanner reader = new Scanner(System.in);
+            choixCombinaisonUtilisateur();
+            try {
+                combinaisonSecrete = reader.nextInt();
+                break;
+            } catch (InputMismatchException ime){
+                System.out.println("La valeur saisie n'est pas une valeur numérique");
+            }
+        }
 
-                    System.out.println("Entrez votre combinaison secrete");
-                    Scanner reader = new Scanner(System.in);
+        choixNombreEssai();
 
-                    switch (nbCaseMaster) {
+        solutionDonné =Integer.toString(combinaisonSecrete);
 
-                        case "4":
-                            System.out.println("-- Vous devez selectionner une combinaison à 4 chiffres --");
-                            combinaisonSecrete = ThreadLocalRandom.current().nextInt(899);
-                            combinaisonSecrete += 1000;
-                            vtm = 4;
-                            break;
-                        case "5":
-                            System.out.println("-- Vous devez selectionner une combinaison à 5 chiffres --");
-                            combinaisonSecrete = ThreadLocalRandom.current().nextInt(8999);
-                            combinaisonSecrete += 10000;
-                            vtm = 5;
-                            break;
-                        case "6":
-                            System.out.println("-- Vous devez selectionner une combinaison à 6 chiffres --");
-                            combinaisonSecrete = ThreadLocalRandom.current().nextInt(89999);
-                            combinaisonSecrete += 100000;
-                            vtm = 6;
-                            break;
-                        case "7":
-                            System.out.println("-- Vous devez selectionner une combinaison à 7 chiffres --");
-                            combinaisonSecrete = ThreadLocalRandom.current().nextInt(899999);
-                            combinaisonSecrete += 1000000;
-                            vtm = 7;
-                            break;
-                        case "8":
-                            System.out.println("-- Vous devez selectionner une combinaison à 8 chiffres --");
-                            combinaisonSecrete = ThreadLocalRandom.current().nextInt(8999999);
-                            combinaisonSecrete += 10000000;
-                            vtm = 8;
-                            break;
-                        case "9":
-                            System.out.println("-- Vous devez selectionner une combinaison à 9 chiffres --");
-                            combinaisonSecrete = ThreadLocalRandom.current().nextInt(89999999);
-                            combinaisonSecrete += 100000000;
-                            vtm = 9;
-                            break;
-                        case "10":
-                            System.out.println("-- Vous devez selectionner une combinaison à 10 chiffres --");
-                            combinaisonSecrete = ThreadLocalRandom.current().nextInt(899999999);
-                            combinaisonSecrete += 1000000000;
-                            vtm = 10;
-                            break;
-                    }
+        solution =solutionDonné.split("");
+        length =solution.length;
 
-                    try {
-                        combinaisonSecrete = reader.nextInt();
-                        break;
-                    } catch (InputMismatchException ime){
-                        System.out.println("La valeur saisie n'est pas une valeur numérique");
-                    }
-                    finally {
-                        reader.nextLine();
-                    }
-                }
+        System.out.println("A vous de jouer !");
 
-                String nbEssai = mapParameteres.get("nbEssai");
-                int choixEssai = 2;
+        while (wellPlaced != vtm && choixEssai <= nbEssaies) {
 
-                switch (nbEssai){
-                    case "1":
-                        nbEssaies = 1;
-                    case "2":
-                        nbEssaies = 2;
-                    case "3":
-                        nbEssaies = 3;
-                    case "4":
-                        nbEssaies = 4;
-                    case "5":
-                        nbEssaies = 5;
-                    case "6":
-                        nbEssaies = 6;
+            choixCombinaisonOrdinateur();
+            proposition = Integer.toString(solutionPossible).split("");
 
-                }
-                solutionDonné =Integer.toString(combinaisonSecrete);
+            resultat();
 
-                solution =solutionDonné.split("");
-                length =solution.length;
+            if (present == 0 && wellPlaced == 1) {
+                System.out.println("Proposition : " +  solutionPossible + " -> Reponse : " + wellPlaced + "  bien placé");
+            } else if (present == 0 && wellPlaced <= 3) {
+                System.out.println("Proposition : " + solutionPossible  + " ->  Reponse : " + wellPlaced + " bien placés");
+            } else if (present == 1 && wellPlaced <= 3) {
+                System.out.println("Proposition : " + solutionPossible + " -> Reponse : " + present + " présent," + wellPlaced + " bien placés");
+            } else if (present <= 3 && wellPlaced <= 3) {
+                System.out.println("Proposition : " + solutionPossible  + " -> Reponse : " + present + " présents, " + wellPlaced + " bien placés");
+            } else if (present > 1 && wellPlaced == 0) {
+                System.out.println("Proposition :" + solutionPossible + " -> Reponse : " + present + " présents");
+            }
 
-                String[] proposition;
+            choixEssai++;
+        }
 
-                List<String> propositionAsList = Arrays.asList(solution);
-
-                System.out.println("A vous de jouer !");
-
-                while (wellPlaced != vtm && choixEssai <= nbEssaies) {
-                    int n =0;
-                    Random rand = new Random();
-
-                    switch (nbCaseMaster) {
-                        case "4":
-                            n = rand.nextInt(899);
-                            n += 1000;
-                            vtm = 4;
-                            break;
-                        case "5":
-                            n = rand.nextInt(8999);
-                            n += 10000;
-                            vtm = 5;
-                            break;
-                        case "6":
-                            n = rand.nextInt(89999);
-                            n += 100000;
-                            vtm = 6;
-                            break;
-                        case "7":
-                            n = rand.nextInt(899999);
-                            n += 1000000;
-                            vtm = 7;
-                            break;
-                        case "8":
-                            n = rand.nextInt(8999999);
-                            n += 10000000;
-                            vtm = 8;
-                            break;
-                        case "9":
-                            n = rand.nextInt(89999999);
-                            n += 100000000;
-                            vtm = 9;
-                            break;
-                        case "10":
-                            n = rand.nextInt(899999999);
-                            n += 1000000000;
-                            vtm = 10;
-                            break;
-
-                    }
-
-
-                    proposition = Integer.toString(n).split("");
-                    present = 0;
-                    wellPlaced = 0;
-                    for (int i = 0; i < length; i++) {
-
-                        if (solution[i].equals(proposition[i])) {
-                            wellPlaced++;
-                        } else if (propositionAsList.contains(proposition[i]))
-                            present++;
-
-                    }
-                    if (present == 0 && wellPlaced == 1) {
-                        System.out.println("Proposition : " +  n + " -> Reponse : " + wellPlaced + "  bien placé");
-                    } else if (present == 0 && wellPlaced <= 3) {
-                        System.out.println("Proposition : " + n  + " ->  Reponse : " + wellPlaced + " bien placés");
-                    } else if (present == 1 && wellPlaced <= 3) {
-                        System.out.println("Proposition : " + n + " -> Reponse : " + present + " présent," + wellPlaced + " bien placés");
-                    } else if (present <= 3 && wellPlaced <= 3) {
-                        System.out.println("Proposition : " + n  + " -> Reponse : " + present + " présents, " + wellPlaced + " bien placés");
-                    } else if (present > 1 && wellPlaced == 0) {
-                        System.out.println("Proposition :" + n + " -> Reponse : " + present + " présents");
-                    }
-
-                    choixEssai++;
-
-                }
-                if (wellPlaced == vtm && choixEssai <= nbEssaies) {
-                    System.out.println("Bravo, vous avez gagnez !!");
+            if (wellPlaced == vtm && choixEssai <= nbEssaies) {
+                System.out.println("Bravo, vous avez gagnez !!");
                 } else
                     System.out.println("Vous avez perdu");
             }
@@ -407,134 +192,14 @@ public class Mastermind extends Jeux {
     public void duel() throws IOException {
         logger.info("Vous avez choisi le mode duel");
         Scanner ordi = new Scanner(System.in);
-        Map<String, String> mapParameteres = ReadPropertyFile.getListeParametres();
-
-        String nbCaseMaster = mapParameteres.get("nbCaseMaster");
-
-        Random rand = new Random();
-
-        switch (nbCaseMaster) {
-            case "4":
-                System.out.println("-- Vous devez selectionner une combinaison à 4 chiffres --");
-                solutionPossible = rand.nextInt(899);
-                solutionPossible += 1000;
-                vtm = 4;
-                break;
-            case "5":
-                System.out.println("-- Vous devez selectionner une combinaison à 5 chiffres --");
-                solutionPossible = rand.nextInt(8999);
-                solutionPossible += 10000;
-                vtm = 5;
-                break;
-            case "6":
-                System.out.println("-- Vous devez selectionner une combinaison à 6 chiffres --");
-                solutionPossible = rand.nextInt(89999);
-                solutionPossible += 100000;
-                vtm = 6;
-                break;
-            case "7":
-                System.out.println("-- Vous devez selectionner une combinaison à 7 chiffres --");
-                solutionPossible = rand.nextInt(899999);
-                solutionPossible += 1000000;
-                vtm = 7;
-                break;
-            case "8":
-                System.out.println("-- Vous devez selectionner une combinaison à 8 chiffres --");
-                solutionPossible = rand.nextInt(8999999);
-                solutionPossible += 10000000;
-                vtm = 8;
-                break;
-            case "9":
-                System.out.println("-- Vous devez selectionner une combinaison à 9 chiffres --");
-                solutionPossible = rand.nextInt(89999999);
-                solutionPossible += 100000000;
-                vtm = 9;
-                break;
-            case "10":
-                System.out.println("-- Vous devez selectionner une combinaison à 10 chiffres --");
-                solutionPossible = rand.nextInt(899999999);
-                solutionPossible += 1000000000;
-                vtm = 10;
-                break;
-
-        }
-
-        String nbEssai = mapParameteres.get("nbEssai");
-        int choixEssai = 2;
-
-        switch (nbEssai){
-            case "1":
-                nbEssaies = 1;
-            case "2":
-                nbEssaies = 2;
-            case "3":
-                nbEssaies = 3;
-            case "4":
-                nbEssaies = 4;
-            case "5":
-                nbEssaies = 5;
-            case "6":
-                nbEssaies = 6;
-
-        }
-
+        choixCombinaisonOrdinateur();
+        choixNombreEssai();
         solutionDonné = Integer.toString(solutionPossible);
-
-        String modeDeveloppeur = mapParameteres.get("modeDeveloppeur");
-
-        if (modeDeveloppeur.equals("true")) {
-            System.out.println("Combinaison choisi par l'ordinateur " + solutionDonné);
-        }
 
         while (true){
             Scanner utlisateur = new Scanner(System.in);
             System.out.println("Entrez votre combinaison secrete");
-            switch (nbCaseMaster) {
-
-                case "4":
-                    System.out.println("-- Vous devez selectionner une combinaison à 4 chiffres --");
-                    solutionPossible2 = ThreadLocalRandom.current().nextInt(899);
-                    solutionPossible2 += 1000;
-                    vtm = 4;
-                    break;
-                case "5":
-                    System.out.println("-- Vous devez selectionner une combinaison à 5 chiffres --");
-                    solutionPossible2 = ThreadLocalRandom.current().nextInt(8999);
-                    solutionPossible2 += 10000;
-                    vtm = 5;
-                    break;
-                case "6":
-                    System.out.println("-- Vous devez selectionner une combinaison à 6 chiffres --");
-                    solutionPossible2 = ThreadLocalRandom.current().nextInt(89999);
-                    solutionPossible2 += 100000;
-                    vtm = 6;
-                    break;
-                case "7":
-                    System.out.println("-- Vous devez selectionner une combinaison à 7 chiffres --");
-                    solutionPossible2 = ThreadLocalRandom.current().nextInt(899999);
-                    solutionPossible2 += 1000000;
-                    vtm = 7;
-                    break;
-                case "8":
-                    System.out.println("-- Vous devez selectionner une combinaison à 8 chiffres --");
-                    solutionPossible2 = ThreadLocalRandom.current().nextInt(8999999);
-                    solutionPossible2 += 10000000;
-                    vtm = 8;
-                    break;
-                case "9":
-                    System.out.println("-- Vous devez selectionner une combinaison à 9 chiffres --");
-                    solutionPossible2 = ThreadLocalRandom.current().nextInt(89999999);
-                    solutionPossible2 += 100000000;
-                    vtm = 9;
-                    break;
-                case "10":
-                    System.out.println("-- Vous devez selectionner une combinaison à 10 chiffres --");
-                    solutionPossible2 = ThreadLocalRandom.current().nextInt(899999999);
-                    solutionPossible2 += 1000000000;
-                    vtm = 10;
-                    break;
-
-            }
+            choixCombinaisonUtilisateur();
 
             try {
                 solutionPossible2 =utlisateur.nextInt();
@@ -553,14 +218,10 @@ public class Mastermind extends Jeux {
         solution2 = solutionDonné2.split("");
         length = solution.length;
         length2 = solution2.length;
-        String[] proposition;
-        String[] proposition2;
 
         System.out.println("A vous de jouer !");
 
         do {
-
-            // choix joueur
             int n;
             while (true){
                 try {
@@ -575,17 +236,7 @@ public class Mastermind extends Jeux {
             }
 
             proposition = Integer.toString(n).split("");
-            List<String> propositionAsList = Arrays.asList(solution);
-            present = 0;
-            wellPlaced = 0;
-            for (int i = 0; i < length; i++) {
-
-                if (solution[i].equals(proposition[i])) {
-                    wellPlaced++;
-                } else if (propositionAsList.contains(proposition[i]))
-                    present++;
-
-            }
+            resultat();
 
             if (present == 0 && wellPlaced == 1) {
                 System.out.println("Proposition : " + n + " -> Reponse : " + wellPlaced + "  bien placé");
@@ -601,52 +252,11 @@ public class Mastermind extends Jeux {
 
             if (wellPlaced != vtm) {
 
-            // choix ordinateur
+            choixCombinaisonOrdinateur();
+            System.out.println(solutionPossible);
 
-                int r =0;
+            proposition2 = Integer.toString(solutionPossible).split("");
 
-                switch (nbCaseMaster) {
-
-                    case "4":
-                        r = rand.nextInt(899);
-                        r += 1000;
-                        vtm = 4;
-                        break;
-                    case "5":
-                        r = rand.nextInt(8999);
-                        r += 10000;
-                        vtm = 5;
-                        break;
-                    case "6":
-                        r = rand.nextInt(89999);
-                        r += 100000;
-                        vtm = 6;
-                        break;
-                    case "7":
-                        r = rand.nextInt(899999);
-                        r += 1000000;
-                        vtm = 7;
-                        break;
-                    case "8":
-                        r = rand.nextInt(8999999);
-                        r += 10000000;
-                        vtm = 8;
-                        break;
-                    case "9":
-                        r = rand.nextInt(89999999);
-                        r += 100000000;
-                        vtm = 9;
-                        break;
-                    case "10":
-                        r = rand.nextInt(899999999);
-                        r += 1000000000;
-                        vtm = 10;
-                        break;
-
-                }
-            System.out.println(r);
-
-            proposition2 = Integer.toString(r).split("");
             List<String> proposition2AsList = Arrays.asList(solution2);
             present = 0;
             wellPlaced = 0;
@@ -659,15 +269,15 @@ public class Mastermind extends Jeux {
 
             }
             if (present == 0 && wellPlaced == 1) {
-                System.out.println("Proposition : " + r + " -> Reponse :  " + wellPlaced + "  bien placé");
+                System.out.println("Proposition : " + solutionPossible + " -> Reponse :  " + wellPlaced + "  bien placé");
             } else if (present == 0 && wellPlaced <= 3) {
-                System.out.println("Proposition : " + r + " -> Reponse : " + wellPlaced + " bien placés");
+                System.out.println("Proposition : " + solutionPossible + " -> Reponse : " + wellPlaced + " bien placés");
             } else if (present == 1 && wellPlaced <= 3) {
-                System.out.println("Proposition : " + r + " -> Reponse : " + present + " présent," + wellPlaced + " bien placés");
+                System.out.println("Proposition : " + solutionPossible+ " -> Reponse : " + present + " présent," + wellPlaced + " bien placés");
             } else if (present <= 3 && wellPlaced <= 3) {
-                System.out.println("Proposition : " + r + " -> Reponse : " + present + " présents, " + wellPlaced + " bien placés");
+                System.out.println("Proposition : " + solutionPossible + " -> Reponse : " + present + " présents, " + wellPlaced + " bien placés");
             } else if (present > 1 && wellPlaced == 0) {
-                System.out.println("Proposition :" + r + " -> Reponse : " + present + " présents");
+                System.out.println("Proposition :" + solutionPossible + " -> Reponse : " + present + " présents");
             }
             choixEssai++;
         }
@@ -679,6 +289,132 @@ public class Mastermind extends Jeux {
             System.out.println("Vous avez perdu :(");
 
 
+    }
+    /**
+     * Methode qui renvoi la combinaison possible à entrer en fonction du parametre choisi.
+     * @throws IOException, exception propagée
+     */
+
+    public void choixCombinaisonOrdinateur () throws IOException {
+        Map<String, String> mapParameteres = ReadPropertyFile.getListeParametres();
+        String nbCaseMaster = mapParameteres.get("nbCaseMaster");
+
+        switch (nbCaseMaster) {
+            case "4":
+                solutionPossible = (int) (Math.random() * 9999);
+                vtm = 4;
+                break;
+            case "5":
+                solutionPossible = (int) (Math.random() * 99999);
+                break;
+            case "6":
+                solutionPossible = (int) (Math.random() * 999999);
+                vtm = 6;
+                break;
+            case "7":
+                solutionPossible = (int) (Math.random() * 9999999);
+                vtm = 7;
+                break;
+            case "8":
+                solutionPossible = (int) (Math.random() * 99999999);
+                vtm = 8;
+                break;
+            case "9":
+                solutionPossible = (int) (Math.random() * 999999999);
+                vtm = 9;
+                break;
+            case "10":
+                solutionPossible = (int) (Math.random() * 999999999 + 1000000000);
+                vtm = 10;
+                break;
+
+        }
+    }
+    /**
+     * Methode qui renvoi la combinaison possible à entrer en fonction du parametre choisi.
+     * @throws IOException, exception propagée
+     */
+
+    public void choixCombinaisonUtilisateur () throws IOException {
+        Map<String, String> mapParameteres = ReadPropertyFile.getListeParametres();
+        String nbCaseMaster = mapParameteres.get("nbCaseMaster");
+        switch (nbCaseMaster) {
+
+            case "4":
+                combinaisonSecrete = ThreadLocalRandom.current().nextInt(0, 9999);
+                vtm = 4;
+                break;
+            case "5":
+                combinaisonSecrete = ThreadLocalRandom.current().nextInt(0, 99999);
+                vtm = 5;
+                break;
+            case "6":
+                combinaisonSecrete = ThreadLocalRandom.current().nextInt(0, 999999);
+                vtm = 6;
+                break;
+            case "7":
+                combinaisonSecrete = ThreadLocalRandom.current().nextInt(0, 9999999);
+                vtm = 7;
+                break;
+            case "8":
+                combinaisonSecrete = ThreadLocalRandom.current().nextInt(0, 99999999);
+                vtm = 8;
+                break;
+            case "9":
+                combinaisonSecrete = ThreadLocalRandom.current().nextInt(0, 999999999);
+                vtm = 9;
+                break;
+            case "10":
+
+                combinaisonSecrete = ThreadLocalRandom.current().nextInt(0, 999999999);
+                combinaisonSecrete += 1000000000;
+                vtm = 10;
+                break;
+        }
+    }
+
+    /**
+     * Methode qui renvoi le nombre d'essai possible en fonction du parametre choisi
+     * @throws IOException
+     */
+
+    public void choixNombreEssai () throws IOException {
+        Map<String, String> mapParameteres = ReadPropertyFile.getListeParametres();
+        String nbEssai = mapParameteres.get("nbEssai");
+
+        switch (nbEssai){
+            case "1":
+                nbEssaies = 1;
+            case "2":
+                nbEssaies = 2;
+            case "3":
+                nbEssaies = 3;
+            case "4":
+                nbEssaies = 4;
+            case "5":
+                nbEssaies = 5;
+            case "6":
+                nbEssaies = 6;
+
+        }
+    }
+
+    /**
+     * Methode qui compare la solution soit la combinaison secrete donné et la proposition faite.
+     */
+
+    public void resultat (){
+        List<String> propositionAsList = Arrays.asList(solution);
+        present = 0;
+        wellPlaced = 0;
+        for (int i = 0; i < length; i++) {
+
+            if (solution[i].equals(proposition[i])) {
+                wellPlaced++;
+            } else if (propositionAsList.contains(proposition[i]))
+                present ++;
+
+        }
     }
 
 

@@ -17,28 +17,33 @@ public class Menu {
      * @throws Exception propagée par le mode developpeur
      */
     public int displayAffichage() throws Exception {
-
+        /**
+         * Cette methode retourne le choix selectionné
+         */
         logger.info("Bienvenue dans le menu principale, Vous allez selectionner un jeu");
 
         int selectionJeu;
 
-        Scanner sc = new Scanner(System.in);
+        while (true) {
 
-        while (true){
-
+            Scanner sc = new Scanner(System.in);
             System.out.println("Veuillez selectionner votre jeu ");
             System.out.println("1 - Jeu du plus ou moins ");
             System.out.println("2 - Mastermind ");
+
             try {
                 selectionJeu = sc.nextInt();
-                break;
+                    while (selectionJeu > 2) {
+                        if (true) {
+                            System.out.println("Vous n'avez pas entrez un choix valide, Réessayez");
+                            selectionJeu = sc.nextInt();
+                        } else
+                            sc.nextLine();
+                    }
+                break; // pour sortir de la boucle.
             } catch (InputMismatchException ime){
                 System.out.println("La valeur saisie n'est pas une valeur numérique");
             }
-            finally {
-                sc.nextLine();
-            }
-
         }
         displaySelectedAffichage(selectionJeu);
 
@@ -54,21 +59,20 @@ public class Menu {
 
         logger.info("Vous avez été redirigez dans le jeu que vous avez choisi");
 
+        Jeux jeux;
 
         switch (choixJeu) {
             case 1:
                 System.out.println("Vous avez choisi le jeu du plus ou moins ");
-                PlusOuMoins plm = new PlusOuMoins();
-                plm.selectedMode();
+                jeux = new PlusOuMoins();
+                jeux.selectedMode();
 
                 break;
             case 2:
                 System.out.println("Vous avez choisi le jeu du Mastermind ");
-                Mastermind mst = new Mastermind();
-                mst.selectedMode();
+                jeux = new Mastermind();
+                jeux.selectedMode();
                 break;
         }
-
     }
-
 }

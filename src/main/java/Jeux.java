@@ -2,11 +2,10 @@ package main.java;
 
 
 import java.io.IOException;
-import java.util.Scanner;
 
 public abstract class Jeux {
 
-    protected int combinaisonSecrete;
+    protected static int combinaisonSecrete;
     protected static int solutionPossible;
     protected static int solutionPossible2;
     protected static String solutionDonné;
@@ -27,24 +26,19 @@ public abstract class Jeux {
     protected int vtm;
     protected int choixEssai = 2;
 
-    public Jeux() {
-
-    }
-
-
     public abstract void challenger() throws IOException;
 
     public abstract void duel() throws Exception;
 
     public abstract void defenseur () throws IOException;
 
-    /**
-     * Methode pour quitter l'application
-     */
+    public abstract void selectedMode() throws Exception;
 
+    /**
+     * Methode pour quitter l'application commune au deux jeux.
+     */
     protected void exit() {
         System.out.println(" Au revoir ");
         System.exit(0);
     }
-
     }
