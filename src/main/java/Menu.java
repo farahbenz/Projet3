@@ -18,7 +18,7 @@ public class Menu {
      * @return retourne le jeu selectionné
      * @throws IOException exception propagée
      */
-    protected int displayAffichage() throws IOException {
+    public int displayAffichage() throws IOException {
 
         logger.info("Bienvenue dans le menu principale, Vous allez selectionner un jeu");
 
