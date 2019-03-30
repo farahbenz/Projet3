@@ -46,3 +46,5 @@ Au démarrage, un menu apparaitra et vous indiquera les différentes possibilit�
 Il suffira de taper le bon code puis sur Entrée. À la fin de la partie, l'utilisateur peut choisir de rejouer au même
 jeu de lancer un autre jeu ou de quitter l'application.
 # Projet3
+# Projet1
+# Projet1
