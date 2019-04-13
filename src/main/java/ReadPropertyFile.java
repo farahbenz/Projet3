@@ -1,41 +1,47 @@
 package main.java;
 
-import org.springframework.core.io.ClassPathResource;
-
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Map;
 import java.util.Properties;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.logging.Logger;
 
 public class ReadPropertyFile {
 
-    private static ConcurrentHashMap<String, String> mymap;
+    private final static Logger logger = Logger.getLogger(String.valueOf(ReadPropertyFile.class));
 
     /**
-     * getListeParametres
-     *
-     * @return mymap
-     * @throws IOException
+     * Liste contenant les propriétés extraites du fichier config.properties
      */
-    public static synchronized ConcurrentHashMap<String, String> getListeParametres() throws IOException {
+    private static Properties props;
 
-        if (null == mymap) {
-
-            final InputStream inputStream = new ClassPathResource("config.properties")
-                    .getInputStream();
-            final Properties properties = new Properties();
-
-            properties.load(inputStream);
+    /**
+     * Lit le fichier et charge les éléments contenus dans le fichier config.properties
+     *
+     */
+    private static void loadProps() {
+        try {
+            String propFileName = "config.properties";
+            InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream(propFileName);
+            props = new Properties();
+            props.load(inputStream);
             inputStream.close();
-
-            mymap = new ConcurrentHashMap<String, String>();
-
-            for (Map.Entry<Object, Object> entry : properties.entrySet()) {
-                mymap.put((String) entry.getKey(), (String) entry.getValue());
-            }
-
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        return mymap;
+    }
+
+    /**
+     * Récupére la proprieté qui a pour valeur le contenu de la variable passée en paramètre
+     *
+     * @return La valeur de la proprieté correspondant Ã  la valeur de la variable value
+     */
+    public static String getValue(String value) {
+        if (props == null)
+            loadProps();
+
+        return props.getProperty(value);
     }
 }

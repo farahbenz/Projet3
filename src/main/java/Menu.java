@@ -11,6 +11,10 @@ import org.apache.logging.log4j.Logger;
  */
 public class Menu {
 
+    /**
+     * Création de l'instance Logger en utilisant la méthode getLogger()
+     */
+
     private static final Logger logger = LogManager.getLogger(Menu.class);
 
     /**
@@ -18,12 +22,11 @@ public class Menu {
      * @return retourne le jeu selectionné
      * @throws IOException exception propagée
      */
-    public int displayAffichage() throws IOException {
+
+    public int displayAffichage(String parametre) throws IOException, JeuxException {
 
         logger.info("Bienvenue dans le menu principale, Vous allez selectionner un jeu");
-
         int selectionJeu;
-
         while (true) {
 
             Scanner sc = new Scanner(System.in);
@@ -44,8 +47,7 @@ public class Menu {
                 System.out.println("La valeur saisie n'est pas une valeur numérique");
             }
         }
-        displaySelectedAffichage(selectionJeu);
-
+        displaySelectedAffichage(selectionJeu, parametre);
         return selectionJeu;
     }
 
@@ -54,20 +56,18 @@ public class Menu {
      * @param choixJeu
      * @throws IOException
      */
-    private static void displaySelectedAffichage(int choixJeu) throws IOException {
+    private static void displaySelectedAffichage(int choixJeu, String parametre) throws IOException, JeuxException {
 
         logger.info("Vous avez été redirigez dans le jeu que vous avez choisi");
 
         switch (choixJeu) {
             case 1:
                 System.out.println("Vous avez choisi le jeu du plus ou moins ");
-                plusOuMoins();
-
-
+                plusOuMoins(parametre);
                 break;
             case 2:
                 System.out.println("Vous avez choisi le jeu du Mastermind ");
-                mastermind();
+                mastermind(parametre);
                 break;
         }
     }
@@ -76,21 +76,19 @@ public class Menu {
      * Methode qui permet d'afficher les differents menu du mastermind et de lancer le jeu.
      * @throws IOException exception propagée
      */
-    private static void mastermind() throws IOException {
+    private static void mastermind(String parametre) throws IOException, JeuxException {
 
-        int selectionMode;
+        int selectionModeMaster;
         Scanner sc = new Scanner(System.in);
         while(true){
             System.out.println("Veuillez choisir un mode de jeu ");
             System.out.println("1 - Mode challenger ");
-            System.out.println("2 - Mode defenseur ");
-            System.out.println("3 - Mode duel ");
             try {
-                selectionMode = sc.nextInt();
-                while (selectionMode > 3) {
+                selectionModeMaster = sc.nextInt();
+                while (selectionModeMaster > 2) {
                     if (true) {
                         System.out.println("Vous n'avez pas entrez un choix valide, Réessayez");
-                        selectionMode = sc.nextInt();
+                        selectionModeMaster = sc.nextInt();
                     }
                 }
                 break;
@@ -99,52 +97,49 @@ public class Menu {
             }
         }
 
-        switch (selectionMode){
+        switch (selectionModeMaster){
             case 1:
-                Challengeur challengeur = new Challengeur();
-                challengeur.master();
-                break;
-            case 2:
-                Defenseur defenseur = new Defenseur();
-                defenseur.master();
-                break;
-            case 3:
-                Duel duel = new Duel();
-                duel.master();
+                Jeux challengeur = new Challengeur();
+                challengeur.master(parametre);
                 break;
         }
-        int selection;
+
+        /**
+         * Affichage du menu de sortie de jeu qui propose plusieurs choix.
+         */
 
         System.out.println("1 - Rejouer au même jeu");
         System.out.println("2 - Lancer un autre jeu ");
         System.out.println("3 - Quitter l'application ");
+        int selectionMenuFinMaster = sc.nextInt();
 
-        selection = sc.nextInt();
+        /**
+         * En fonction du choix fait, vous serez redirigez vers celui ci.
+         */
 
-        switch (selection){
+        switch (selectionMenuFinMaster){
             case 1 :
                 System.out.println("Vous avez choisi de rejouer au meme jeu");
-                mastermind();
+                mastermind(parametre);
                 break;
             case 2:
                 System.out.println("Vous avez choisi de lancer un autre jeu");
-                displaySelectedAffichage(selection);
+                displaySelectedAffichage(selectionMenuFinMaster, parametre);
                 break;
             case 3:
                 exit();
                 break;
-
         }
-
     }
+
     /**
      * Methode qui permet d'afficher les differents menu du plus ou moins et de lancer le jeu.
      * @throws IOException exception propagée
      */
 
-    private static void plusOuMoins() throws IOException {
+    private static void plusOuMoins(String parametre) throws IOException, JeuxException {
 
-        int selectionMode;
+        int selectionModePlm;
         Scanner sc = new Scanner(System.in);
         while(true) {
             System.out.println("Veuillez choisir un mode de jeu ");
@@ -152,11 +147,11 @@ public class Menu {
             System.out.println("2 - Mode defenseur ");
             System.out.println("3 - Mode duel ");
             try {
-                selectionMode = sc.nextInt();
-                while (selectionMode > 3) {
+                selectionModePlm = sc.nextInt();
+                while (selectionModePlm > 3) {
                     if (true) {
                         System.out.println("Vous n'avez pas entrez un choix valide, Réessayez");
-                        selectionMode = sc.nextInt();
+                        selectionModePlm = sc.nextInt();
                     }
                 }
                 break;
@@ -165,46 +160,41 @@ public class Menu {
             }
         }
 
-        switch (selectionMode) {
+        switch (selectionModePlm) {
             case 1:
-                Challengeur challengeur = new Challengeur();
-                challengeur.plusMoins();
+                Jeux challengeur = new Challengeur();
+                challengeur.plusMoins(parametre);
                 break;
             case 2:
-                Defenseur defenseur = new Defenseur();
-                defenseur.plusMoins();
+                Jeux defenseur = new Defenseur();
+                defenseur.plusMoins(parametre);
 
                 break;
             case 3:
-                Duel duel = new Duel();
-                duel.plusMoins();
+                Jeux duel = new Duel();
+                duel.plusMoins(parametre);
                 break;
         }
-
-        int selection;
 
         System.out.println("1 - Rejouer au même jeu");
         System.out.println("2 - Lancer un autre jeu ");
         System.out.println("3 - Quitter l'application ");
 
-        selection = sc.nextInt();
+        int selectionMenuFinPlm = sc.nextInt();
 
-        switch (selection){
+        switch (selectionMenuFinPlm){
             case 1 :
                 System.out.println("Vous avez choisi de rejouer au meme jeu");
-                plusOuMoins();
+                plusOuMoins(parametre);
                 break;
             case 2:
                 System.out.println("Vous avez choisi de lancer un autre jeu");
-                displaySelectedAffichage(selection);
+                displaySelectedAffichage(selectionMenuFinPlm, parametre);
                 break;
             case 3:
                 exit();
                 break;
-
         }
-
-
     }
 
     /**
@@ -215,5 +205,4 @@ public class Menu {
         System.out.println(" Au revoir ");
         System.exit(0);
     }
-
 }

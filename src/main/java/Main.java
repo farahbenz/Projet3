@@ -12,7 +12,7 @@ public class Main {
         System.out.println(parametre);
 
         Menu menu = new Menu();
-        menu.displayAffichage();
+        menu.displayAffichage(parametre);
     }
 }
 

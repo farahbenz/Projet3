@@ -1,46 +1,124 @@
 package main.java;
 
-import java.io.IOException;
-import java.util.InputMismatchException;
-import java.util.Scanner;
+
+import java.util.*;
 
 /**
  * classe qui definit le mode challegeur pour le jeu du mastermind et plus ou moins.
  */
 
 public class Challengeur extends Jeux {
+
     /**
-     * Mode challenger du Mastermind.
-     * @throws IOException, exception propagée
+     * Fait appel au fichier config.properties pour utiliser les parametres choisi
      */
 
-    public void master() throws IOException {
+    String modeDeveloppeur = ReadPropertyFile.getValue("modeDeveloppeur");
+
+    /**
+     * Mode challengeur du Plus ou moins.
+     */
+
+    void plusMoins(String parametre){
 
         choixCombinaisonOrdinateur();
+        combiOrdi = Integer.toString(solutionPossible);
+        combinaisonOrdi = combiOrdi.split("");
+
         choixEssais();
 
-        solutionDonné = Integer.toString(solutionPossible);
-        solution = solutionDonné.split("");
-        length = solution.length;
+        if (modeDeveloppeur.equals("true")) {
+            System.out.println("(Combinaison Secrète : " + combiOrdi + ")");
+        }
 
-        System.out.println("A vous de jouer !");
+        if (parametre.equals("true")) {
+            System.out.println("(Combinaison Secrète : " + combiOrdi + ")");
+        }
 
-        while (wellPlaced != vtm && choixEssai <= nbEssaies ) {
-            while (true) {
 
-                Scanner reader = new Scanner(System.in);
-                choixCombinaisonUtilisateur();
+        System.out.println("Attaquant à vous de jouer !");
 
-                try {
-                    combinaisonSecrete = reader.nextInt();
-                    break;
-                } catch (InputMismatchException ime) {
-                    System.out.println("!!La valeur saisie n'est pas une valeur numérique!! Réessayez");
+
+        while (!reponse.equals(nb) && choixEssai <= nbEssaies) {
+
+            reponse ="";
+
+            try {
+                choixUtilisateur();
+            } catch (JeuxException e) {
+                System.out.println(e.toString());
+                continue;
+            }
+
+
+            for (int i = 0; i < nbCase; i++) {
+
+                if (Integer.parseInt(propositionUtil[i]) == Integer.parseInt(combinaisonOrdi[i])) {
+                    reponse += "=";
+                } else if (Integer.parseInt(propositionUtil[i]) > Integer.parseInt(combinaisonOrdi[i])) {
+                    reponse += "-";
+                } else if (Integer.parseInt(propositionUtil[i]) < Integer.parseInt(combinaisonOrdi[i])) {
+                    reponse += "+";
+                } else
+                    reponse += "=";
+            }
+
+            System.out.println("Reponse -> " + reponse);
+            choixEssai++;
+        }
+
+        if (reponse.equals(nb)) {
+            System.out.println("Bravo à l'attaquant!! Vous avez gagnez :)");
+        } else
+            System.out.println("Vous avez perdu :(");
+
+    }
+
+
+    /**
+     * Mode challenger du Mastermind.
+     */
+
+    void master(String parametre){
+
+        choixCombinaisonOrdinateur();
+        combiOrdi = Integer.toString(solutionPossible);
+        combinaisonOrdi = combiOrdi.split("");
+
+        choixEssais();
+
+        if (modeDeveloppeur.equals("true")) {
+            System.out.println("(Combinaison Secrète : " + combiOrdi + ")");
+        }
+
+        if (parametre.equals("true")) {
+            System.out.println("(Combinaison Secrète : " + combiOrdi + ")");
+        }
+
+        System.out.println("Attaquant à vous de jouer !");
+
+        while (wellPlaced != nbCase && choixEssai <= nbEssaies) {
+
+            wellPlaced = 0;
+            present = 0;
+
+            try {
+                choixUtilisateur();
+            } catch (JeuxException e) {
+                System.out.println(e.toString());
+                continue;
+            }
+
+            List<String> propositionAsList = Arrays.asList(combinaisonOrdi);
+
+            for (int i = 0; i < nbCase; i++) {
+                if (propositionUtil[i].equals(combinaisonOrdi[i])) {
+                    wellPlaced++;
+
+                } else if (propositionAsList.contains(propositionUtil[i])) {
+                    present++;
                 }
             }
-            proposition = Integer.toString(combinaisonSecrete).split("");
-
-            resultat();
 
             if (present == 0 && wellPlaced == 1) {
                 System.out.println("Proposition : " + combinaisonSecrete + " -> Reponse : " + wellPlaced + "  bien placé");
@@ -54,70 +132,14 @@ public class Challengeur extends Jeux {
                 System.out.println("Proposition :" + combinaisonSecrete + " -> Reponse : " + present + " présents");
             }
 
-            choixEssai ++;
+            choixEssai++;
 
         }
-        if (wellPlaced == vtm && choixEssai <=nbEssaies ) {
-            System.out.println("Bravo, vous avez gagnez !!");
+
+        if (wellPlaced == nbCase) {
+            System.out.println("Bravo à l'attaquant, vous avez gagnez !!");
         } else
-            System.out.println("Vous avez perdu");
+            System.out.println("Oups, vous avez perdu");
     }
 
-    /**
-     * Mode challengeur du Plus ou moins.
-     * @throws IOException, exception propagée
-     */
-
-    public void plusMoins() throws IOException {
-
-        choixCombinaisonOrdinateur();
-
-        choixEssais();
-        solutionDonné = Integer.toString(solutionPossible);
-        solution = solutionDonné.split("");
-        length = solution.length;
-        System.out.println("A vous de jouer !");
-
-        while ( !reponse.equals(vt) && choixEssai <= nbEssaies ) {
-
-            reponse = "";
-
-            while (true) {
-                Scanner reader = new Scanner(System.in);
-                choixCombinaisonUtilisateur();
-                try {
-                    combinaisonSecrete = reader.nextInt();
-                    String combinaisonDonné = Integer.toString(combinaisonSecrete);
-                    String[] combinaison = combinaisonDonné.split("");
-                    length2 = combinaison.length;
-
-                    while (length != length2) {
-
-                        if (true) {
-                            System.out.println("Vous n'avez pas entrez un choix valide, Réessayez");
-                            combinaisonSecrete = reader.nextInt();
-
-                        }
-                        break;
-                    }
-
-                    break;
-                } catch (InputMismatchException ime) {
-                    System.out.println("!!La valeur saisie n'est pas une valeur numérique!! Réessayez");
-                }
-
-            }
-
-            proposition = Integer.toString(combinaisonSecrete).split("");
-            resultat();
-            System.out.println("Proposition : "+ combinaisonSecrete + " -> Reponse : " + reponse);
-            choixEssai ++;
-        }
-
-        if ( reponse.equals(vt)){
-            System.out.println("Bravo !! Vous avez gagnez :)");
-        } else if (!reponse.equals(vt)){
-            System.out.println("Vous avez perdu :(");
-        }
-    }
 }
