@@ -1,4 +1,5 @@
 package main.java;
+
 import java.util.*;
 
 
@@ -6,7 +7,7 @@ import java.util.*;
  * classe qui definit le mode challegeur pour le jeu du plus ou moins.
  */
 
-public class Duel extends Jeux {
+public class Duel extends Jeu {
 
     /**
      * Mode duel du Plus ou moins.
@@ -35,18 +36,14 @@ public class Duel extends Jeux {
         while (true) {
             System.out.println("Utilisateur veuillez entrez la combinaison secrete");
 
-            try {
+
                 try {
                     choixUtilisateur();
-                } catch (JeuxException e) {
+                } catch (JeuException e) {
                     System.out.println(e.toString());
                     continue;
                 }
                 break;
-            } catch (InputMismatchException ime) {
-                System.out.println("!!La valeur saisie n'est pas une valeur numérique!! Réessayez");
-            }
-
         }
 
 
@@ -78,7 +75,7 @@ public class Duel extends Jeux {
                         solutionDonné2 = Integer.toString(combinaisonSecrete);
                         solution3 = solutionDonné2.split("");
                         length3 = solution3.length;
-                    } catch (JeuxException e) {
+                    } catch (JeuException e) {
                         System.out.println(e.toString());
                         continue;
                     }

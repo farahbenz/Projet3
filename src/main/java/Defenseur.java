@@ -6,7 +6,7 @@ import java.util.*;
  * Classe qui definit le mode defenseur pour le jeu du plus ou moins.
  */
 
-public class Defenseur extends Jeux {
+public class Defenseur extends Jeu {
 
     Scanner sc = new Scanner(System.in);
 
@@ -15,13 +15,19 @@ public class Defenseur extends Jeux {
      */
     void plusMoins(String parametre) {
 
-        System.out.println("Defenseur veuillez entrez votre combinaison secrete:");
+        while (true) {
 
-        try {
-            choixUtilisateur();
-        } catch (JeuxException e) {
-            System.out.println(e.toString());
-        }
+            System.out.println("Defenseur veuillez entrez votre combinaison secrete:");
+
+
+                try {
+                    choixUtilisateur();
+                } catch (JeuException e) {
+                    System.out.println(e.toString());
+                    continue;
+                }
+                break;
+            }
 
 
         choixCombinaisonOrdinateur();
@@ -32,10 +38,10 @@ public class Defenseur extends Jeux {
         System.out.println("Proposition ordinateur -> " + combiOrdi);
 
 
-        propositionOrdi = new Integer[nbCase]; //integer
+        propositionOrdi = new Integer[nbCase];
 
 
-        for (int i = 0; i < combinaisonOrdi.length; i++) {  // string[]
+        for (int i = 0; i < combinaisonOrdi.length; i++) {
             propositionOrdi[i] = Integer.parseInt(combinaisonOrdi[i]);
         }
 
@@ -53,10 +59,10 @@ public class Defenseur extends Jeux {
             while (true) {
                 try {
                     if (length2 != nbCase) {
-                        throw new JeuxException();
+                        throw new JeuException();
                     }
                     break;
-                } catch (JeuxException e) {
+                } catch (JeuException e) {
                     System.out.println("Veuillez réessayer, vous n'avez pas entrez un choix valide");
                     sc.nextLine();
                 } finally {

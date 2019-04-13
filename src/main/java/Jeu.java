@@ -1,4 +1,5 @@
 package main.java;
+
 import java.util.Random;
 import java.util.Scanner;
 
@@ -7,7 +8,7 @@ import static java.lang.Integer.parseInt;
 /**
  * Cette classe contient les variables et methodes communes aux classes des differents modes.
  */
-public  abstract class Jeux {
+public  abstract class Jeu {
 
     protected int combinaisonSecrete;
     protected int solutionPossible;
@@ -20,8 +21,6 @@ public  abstract class Jeux {
     protected int length2;
     protected int length3;
     protected int nbEssaies;
-    protected int wellPlaced;
-    protected int present;
     protected int choixEssai = 5;
     protected int nbCase;
     protected String nb;
@@ -103,13 +102,13 @@ public  abstract class Jeux {
      * dans les parametres.
      */
 
-    public void choixUtilisateur() throws JeuxException  {
+    public void choixUtilisateur() throws JeuException {
         int nbreChiffres = parseInt(ReadPropertyFile.getValue("nbCase"));
         Scanner reader = new Scanner(System.in);
         combinaisonSecrete = reader.nextInt();
         int tailleNbre = Integer.toString(combinaisonSecrete).length();
         if ( nbreChiffres != tailleNbre){
-            throw new JeuxException("Une combinaison à  " + nbreChiffres + " chiffres est attendue");
+            throw new JeuException("Une combinaison à  " + nbreChiffres + " chiffres est attendue");
         }
 
         this.propositionUtil = Integer.toString(combinaisonSecrete).split("");
@@ -123,12 +122,4 @@ public  abstract class Jeux {
     void plusMoins(String parametre) {
 
     }
-
-    /**
-     * @param parametre pour le mode developpeur
-     */
-    void master(String parametre) {
-
-    }
-
 }
