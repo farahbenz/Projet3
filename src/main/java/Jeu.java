@@ -116,10 +116,9 @@ public  abstract class Jeu {
 
 
     /**
+     * Methode plusMoins abstraite.
      * @param parametre pour le mode developpeur
      **/
 
-    void plusMoins(String parametre) {
-
-    }
+    abstract void plusMoins(String parametre);
 }

@@ -13,7 +13,7 @@ public class Defenseur extends Jeu {
     /**
      * Mode defenseur du Plus ou moins.
      */
-    void plusMoins(String parametre) {
+    public void plusMoins(String parametre) {
 
         while (true) {
 
@@ -98,7 +98,6 @@ public class Defenseur extends Jeu {
 
             } else
                 gagner = true;
-
 
         }
 

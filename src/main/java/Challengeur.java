@@ -16,7 +16,7 @@ public class Challengeur extends Jeu {
      * Mode challengeur du Plus ou moins.
      */
 
-    void plusMoins(String parametre){
+    public void plusMoins(String parametre){
 
         choixCombinaisonOrdinateur();
         combiOrdi = Integer.toString(solutionPossible);
@@ -46,9 +46,6 @@ public class Challengeur extends Jeu {
                 System.out.println(e.toString());
                 continue;
             }
-
-
-
 
             for (int i = 0; i < nbCase; i++) {
 

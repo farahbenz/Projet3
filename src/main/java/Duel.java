@@ -13,7 +13,7 @@ public class Duel extends Jeu {
      * Mode duel du Plus ou moins.
      */
 
-    void plusMoins(String parametre) {
+    public void plusMoins(String parametre) {
 
         String modeDeveloppeur = ReadPropertyFile.getValue("modeDeveloppeur");
         Scanner sc = new Scanner(System.in);
