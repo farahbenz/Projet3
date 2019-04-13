@@ -3,21 +3,17 @@
 
 ## Présentation de l'application 
 
-Vous avez le choix entre 2 jeux : Plus ou moins et Mastermind
+Mécanisme de recherche d’une combinaison à X chiffres : Plus ou moins.
 
-Choix 1 : Plus ou moins, le but du jeu est de deviner ou de faire deviner une combinaison de X chiffres
-(entre 2 et 10 chiffres).
+L'application propose de jouer au jeu du plus ou moins.
 
-Choix 2 : Mastermind Le but du jeu est de deviner une combinaison de X chiffres 
-(entre 2 et 10 chiffres).
+Le but du jeu est de deviner ou de faire deviner une combinaison de X chiffres. (entre 2 et 10 chiffres)
 
-Le jeu du plus ou moins peut être joué selon 3 modes soit:
+Le jeu peut être joué selon 3 modes soit:
 
 Challenger -> Vous devez deviner la combinaison.
 Defender -> L'ordinateur doit deviner la combinaison.
 Duel -> A tour de rôle, le joueur et l'ordinateur doivent deviner la combinaison adverse avant l'adversaire.
-
-Le jeu du mastermind peut être joué selon le mode challengeur uniquement.
 
 ## Installation
 
@@ -39,7 +35,7 @@ Le programme, et donc les jeux, s'utilisent en mode console. Pour lancer le jeu 
 Ouvrez un terminal, rendez-vous dans le dossier qui contient le projet et lancez cette ligne de commande
 
 ```bash
-java -jar out/artifacts/NomDuJar_jar/NomDuJar.jar
+java -jar out/out/artifacts/NomDuJar_jar/NomDuJar.jar
 ```
 
 Au démarrage, un menu apparaitra et vous indiquera les différentes possibilités.
