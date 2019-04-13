@@ -9,13 +9,15 @@ Choix 1 : Plus ou moins, le but du jeu est de deviner ou de faire deviner une co
 (entre 2 et 10 chiffres).
 
 Choix 2 : Mastermind Le but du jeu est de deviner une combinaison de X chiffres 
-(entre 4 et 10 chiffres).
+(entre 2 et 10 chiffres).
 
 Le jeu du plus ou moins peut être joué selon 3 modes soit:
 
 Challenger -> Vous devez deviner la combinaison.
 Defender -> L'ordinateur doit deviner la combinaison.
 Duel -> A tour de rôle, le joueur et l'ordinateur doivent deviner la combinaison adverse avant l'adversaire.
+
+Le jeu du mastermind peut être joué selon le mode challengeur uniquement.
 
 ## Installation
 
@@ -28,7 +30,8 @@ Le programme se base sur le fichier config.properties pour configurer le mode de
 pour la combinaison secrete et le nombre d'essai (entre 1 et 6). Il est possible de le modifier puis de relancer 
 le programme pour l’appliquer automatiquement.
 
-Le mode développeur permet d'afficher les codes générés pour vérifier le bon fonctionnement.
+Le mode développeur permet d'afficher les codes générés pour vérifier le bon fonctionnement. Il peut être configurer
+au lancement de l'application en modifiant le parametre par false ou true. 
 
 ## Compilation
 
