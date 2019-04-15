@@ -121,4 +121,15 @@ public  abstract class Jeu {
      **/
 
     abstract void plusMoins(String parametre);
+
+
+    /**
+     * Methode qui permet de relancer le meme mode.
+     * @param parametre
+     */
+
+    abstract void rejouer(String parametre);
+
+
 }
+

@@ -10,6 +10,7 @@ import org.apache.logging.log4j.Logger;
  * Cette classe sert de Menu pour la selection d'un jeu
  */
 public class Menu {
+    private static int selectionModePlm;
 
     /**
      * Création de l'instance Logger en utilisant la méthode getLogger()
@@ -45,6 +46,7 @@ public class Menu {
                 System.out.println("La valeur saisie n'est pas une valeur numérique");
             }
         }
+
         displaySelectedAffichage(selectionJeu, parametre);
         return selectionJeu;
     }
@@ -53,7 +55,7 @@ public class Menu {
      * Permet la redirection vers le jeu choisi
      * @param choixJeu
      */
-    private static void displaySelectedAffichage(int choixJeu, String parametre) {
+    private void displaySelectedAffichage(int choixJeu, String parametre) {
 
         logger.info("Vous avez été redirigez dans le jeu que vous avez choisi");
 
@@ -69,10 +71,11 @@ public class Menu {
      * Methode qui permet d'afficher les differents menu du plus ou moins et de lancer le jeu.
      */
 
-    private static void plusOuMoins(String parametre) {
+    private void plusOuMoins(String parametre) {
 
-        int selectionModePlm;
+
         Scanner sc = new Scanner(System.in);
+
         while(true) {
             System.out.println("Veuillez choisir un mode de jeu ");
             System.out.println("1 - Mode challenger ");
@@ -100,7 +103,6 @@ public class Menu {
             case 2:
                 Jeu defenseur = new Defenseur();
                 defenseur.plusMoins(parametre);
-
                 break;
             case 3:
                 Jeu duel = new Duel();
@@ -108,18 +110,41 @@ public class Menu {
                 break;
         }
 
-        System.out.println("1 - Rejouer");
+
+        System.out.println("1 - Relancer la même partie ");
+        System.out.println("2 - Rejouer au même jeu ");
         System.out.println("2 - Quitter l'application ");
 
         int selectionMenuFinPlm = sc.nextInt();
 
         switch (selectionMenuFinPlm){
             case 1 :
+                System.out.println("Vous avez choisi de relancer la partie");
+                rejou(parametre);
+            case 2 :
                 System.out.println("Vous avez choisi de rejouer");
                 plusOuMoins(parametre);
                 break;
-            case 2:
+            case 3:
                 exit();
+                break;
+        }
+    }
+
+    private void rejou(String parametre) {
+
+        switch (selectionModePlm) {
+            case 1:
+                Jeu challengeur = new Challengeur();
+                challengeur.rejouer(parametre);
+                break;
+            case 2:
+                Jeu defenseur = new Defenseur();
+                defenseur.rejouer(parametre);
+                break;
+            case 3:
+                Jeu duel = new Duel();
+                duel.rejouer(parametre);
                 break;
         }
     }
@@ -132,4 +157,5 @@ public class Menu {
         System.out.println(" Au revoir ");
         System.exit(0);
     }
+
 }

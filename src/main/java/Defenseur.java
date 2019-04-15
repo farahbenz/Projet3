@@ -107,6 +107,13 @@ public class Defenseur extends Jeu {
             System.out.println("Oups, vous avez perdu");
         }
 
+    /**
+     * Methode qui permet de relancer le même mode
+     * @param parametre
+     */
+    void rejouer(String parametre) {
+        plusMoins(parametre);
+    }
 
 
 }

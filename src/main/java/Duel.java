@@ -149,6 +149,14 @@ public class Duel extends Jeu {
             System.out.println("Oups !! Vous avez perdu :(");
         }
 
+    /**
+     * Methode qui permet de relancer le même mode
+     * @param parametre
+     */
+    void rejouer(String parametre) {
+        plusMoins(parametre);
     }
+
+}
 
 

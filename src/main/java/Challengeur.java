@@ -70,4 +70,13 @@ public class Challengeur extends Jeu {
 
     }
 
+    /**
+     * Methode qui permet de relancer le même mode
+     * @param parametre
+     */
+
+    void rejouer(String parametre){
+        plusMoins(parametre);
+    }
+
 }
