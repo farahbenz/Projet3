@@ -120,7 +120,7 @@ public class Menu {
         switch (selectionMenuFinPlm){
             case 1 :
                 System.out.println("Vous avez choisi de relancer la partie");
-                rejou(parametre);
+                relancePartie(parametre);
             case 2 :
                 System.out.println("Vous avez choisi de rejouer");
                 plusOuMoins(parametre);
@@ -131,7 +131,7 @@ public class Menu {
         }
     }
 
-    private void rejou(String parametre) {
+    private void relancePartie(String parametre) {
 
         switch (selectionModePlm) {
             case 1:
