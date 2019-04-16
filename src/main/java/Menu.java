@@ -10,7 +10,9 @@ import org.apache.logging.log4j.Logger;
  * Cette classe sert de Menu pour la selection d'un jeu
  */
 public class Menu {
-    private static int selectionModePlm;
+    private int selectionModePlm;
+    private int selectionMenuFinPlm;
+    Scanner sc = new Scanner(System.in);
 
     /**
      * Création de l'instance Logger en utilisant la méthode getLogger()
@@ -29,7 +31,6 @@ public class Menu {
         int selectionJeu;
         while (true) {
 
-            Scanner sc = new Scanner(System.in);
             System.out.println("Veuillez selectionner votre jeu ");
             System.out.println("1 - Jeu du plus ou moins ");
 
@@ -113,14 +114,15 @@ public class Menu {
 
         System.out.println("1 - Relancer la même partie ");
         System.out.println("2 - Rejouer au même jeu ");
-        System.out.println("2 - Quitter l'application ");
+        System.out.println("3 - Quitter l'application ");
 
-        int selectionMenuFinPlm = sc.nextInt();
+        selectionMenuFinPlm = sc.nextInt();
 
         switch (selectionMenuFinPlm){
             case 1 :
                 System.out.println("Vous avez choisi de relancer la partie");
                 relancePartie(parametre);
+                break;
             case 2 :
                 System.out.println("Vous avez choisi de rejouer");
                 plusOuMoins(parametre);
@@ -129,7 +131,16 @@ public class Menu {
                 exit();
                 break;
         }
+
+
+
+
     }
+
+    /**
+     * Cette methode permet de relancer la même partie
+     * @param parametre
+     */
 
     private void relancePartie(String parametre) {
 
@@ -147,6 +158,27 @@ public class Menu {
                 duel.rejouer(parametre);
                 break;
         }
+
+        System.out.println("1 - Relancer la même partie ");
+        System.out.println("2 - Rejouer au même jeu ");
+        System.out.println("3 - Quitter l'application ");
+
+        selectionMenuFinPlm = sc.nextInt();
+
+        switch (selectionMenuFinPlm){
+            case 1 :
+                System.out.println("Vous avez choisi de relancer la partie");
+                relancePartie(parametre);
+                break;
+            case 2 :
+                System.out.println("Vous avez choisi de rejouer");
+                plusOuMoins(parametre);
+                break;
+            case 3:
+                exit();
+                break;
+        }
+
     }
 
     /**
