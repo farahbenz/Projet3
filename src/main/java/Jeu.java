@@ -21,7 +21,7 @@ public  abstract class Jeu {
     protected int length2;
     protected int length3;
     protected int nbEssaies;
-    protected int choixEssai = 5;
+    protected int choixEssai = 4;
     protected int nbCase;
     protected String nb;
     String[] propositionUtil;
