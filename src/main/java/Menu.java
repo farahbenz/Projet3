@@ -45,6 +45,9 @@ public class Menu {
                 break;
             } catch (InputMismatchException ime){
                 System.out.println("La valeur saisie n'est pas une valeur numérique");
+
+            } finally {
+                sc.nextLine();
             }
         }
 
@@ -93,6 +96,8 @@ public class Menu {
                 break;
             } catch (InputMismatchException ime) {
                 System.out.println("!!La valeur saisie n'est pas une valeur numérique!! Réessayez ");
+            } finally {
+                sc.nextLine();
             }
         }
 
