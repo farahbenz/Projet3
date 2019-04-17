@@ -36,7 +36,7 @@ public class Challengeur extends Jeu {
         System.out.println("Attaquant à vous de jouer !");
 
 
-        while (!reponse.equals(nb) && choixEssai <= nbEssaies) {
+        while (combinaisonSecrete != solutionPossible && choixEssai <= nbEssaies) {
 
             reponse ="";
 
@@ -46,6 +46,8 @@ public class Challengeur extends Jeu {
                 System.out.println(e.toString());
                 continue;
             }
+
+            propositionUtil = Integer.toString(combinaisonSecrete).split("");
 
             for (int i = 0; i < nbCase; i++) {
 
@@ -63,7 +65,7 @@ public class Challengeur extends Jeu {
             choixEssai++;
         }
 
-        if (reponse.equals(nb)) {
+        if (combinaisonSecrete == solutionPossible) {
             System.out.println("Bravo à l'attaquant!! Vous avez gagnez :)");
         } else
             System.out.println("Vous avez perdu :(");

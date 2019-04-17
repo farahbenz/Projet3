@@ -12,19 +12,19 @@ public  abstract class Jeu {
 
     protected int combinaisonSecrete;
     protected int solutionPossible;
-    protected String [] combinaisonOrdi;
-    protected String solutionDonné2;
-    protected String reponse = "";
-    protected String combiOrdi;
-    protected String[] solution3;
-    protected Integer[] propositionOrdi;
     protected int length2;
     protected int length3;
     protected int nbEssaies;
-    protected int choixEssai = 4;
+    protected int choixEssai = 1;
     protected int nbCase;
+    protected String [] combinaisonOrdi;
+    protected String[] propositionUtil;
+    protected String solutionDonne;
+    protected String reponse = "";
     protected String nb;
-    String[] propositionUtil;
+    protected String combiOrdi;
+    protected String[] solution3;
+    protected Integer[] propositionOrdi;
 
 
     /**
@@ -32,23 +32,7 @@ public  abstract class Jeu {
      */
 
     protected void choixEssais() {
-
-        String nbEssai = ReadPropertyFile.getValue("nbEssai");
-
-        switch (nbEssai){
-            case "1":
-                nbEssaies = 1;
-            case "2":
-                nbEssaies = 2;
-            case "3":
-                nbEssaies = 3;
-            case "4":
-                nbEssaies = 4;
-            case "5":
-                nbEssaies = 5;
-            case "6":
-                nbEssaies = 6;
-        }
+        nbEssaies = parseInt(ReadPropertyFile.getValue("nbEssai"));
     }
 
     /**
@@ -63,38 +47,12 @@ public  abstract class Jeu {
         Random random = new Random();
         solutionPossible = minimum + random.nextInt((maximum - minimum) + 1);
 
-        switch (nbCase) {
-            case 2:
-                nb = "==";
-                break;
-            case 3:
-                nb = "===";
-                break;
-            case 4:
-                nb = "====";
-                break;
-            case 5:
-                nb = "=====";
-                break;
-            case 6:
-                nb = "======";
-                break;
-            case 7:
-                nb = "=======";
-                break;
-            case 8:
-                nb = "========";
-                break;
-            case 9:
-                nb = "=========";
-                break;
-            case 10:
-                nb = "==========";
-                break;
+        for( int i = 0; i <  nbCase; i ++){
+            nb = "=";
+            nb += "=";
         }
 
         return solutionPossible ;
-
     }
 
     /**

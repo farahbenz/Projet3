@@ -47,6 +47,7 @@ public class Duel extends Jeu {
         }
 
 
+
         choixCombinaisonOrdinateur();
         combiOrdi = Integer.toString(solutionPossible);
         String[] combOrdi = combiOrdi.split("");
@@ -72,8 +73,8 @@ public class Duel extends Jeu {
 
                     try {
                         choixUtilisateur();
-                        solutionDonné2 = Integer.toString(combinaisonSecrete);
-                        solution3 = solutionDonné2.split("");
+                        solutionDonne = Integer.toString(combinaisonSecrete);
+                        solution3 = solutionDonne.split("");
                         length3 = solution3.length;
                     } catch (JeuException e) {
                         System.out.println(e.toString());
@@ -141,7 +142,7 @@ public class Duel extends Jeu {
                 System.out.println("Bravo !! Vous avez gagnez :)");
             break;
 
-        } while (!reponseDefenseur.equals(nb) && choixEssai <= nbEssaies);
+        } while (solutionPossible != combinaisonSecrete && choixEssai <= nbEssaies);
 
         if (reponseDefenseur.equals(nb)) {
             System.out.println("Bravo Oridnateur !! Vous avez gagnez :)");

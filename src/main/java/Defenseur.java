@@ -70,7 +70,7 @@ public class Defenseur extends Jeu {
                 }
             }
 
-            if (!reponse.equals(nb)) {
+            if (solutionPossible != combinaisonSecrete) {
                 for (int i = 0; i < nbCase; i++) {
 
                     if (reponseDefenseur[i].equals("+")) {
@@ -101,7 +101,7 @@ public class Defenseur extends Jeu {
 
         }
 
-        if (reponse.equals(nb)) {
+        if (solutionPossible == combinaisonSecrete) {
             System.out.println("Bravo à l'attaquant, vous avez gagnez !!");
         } else
             System.out.println("Oups, vous avez perdu");
