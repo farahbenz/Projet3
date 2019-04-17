@@ -74,8 +74,8 @@ public class Duel extends Jeu {
                     try {
                         choixUtilisateur();
                         solutionDonne = Integer.toString(combinaisonSecrete);
-                        solution3 = solutionDonne.split("");
-                        length3 = solution3.length;
+                        solution = solutionDonne.split("");
+                        length3 = solution.length;
                     } catch (JeuException e) {
                         System.out.println(e.toString());
                         continue;
@@ -89,11 +89,11 @@ public class Duel extends Jeu {
 
             for (int i = 0; i < combinaisonOrdi.length; i++) {
 
-                if (Integer.parseInt(solution3[i]) == Integer.parseInt(combinaisonOrdi[i])) {
+                if (Integer.parseInt(solution[i]) == Integer.parseInt(combinaisonOrdi[i])) {
                     reponse += "=";
-                } else if (Integer.parseInt(solution3[i]) > Integer.parseInt(combinaisonOrdi[i])) {
+                } else if (Integer.parseInt(solution[i]) > Integer.parseInt(combinaisonOrdi[i])) {
                     reponse += "-";
-                } else if (Integer.parseInt(solution3[i]) < Integer.parseInt(combinaisonOrdi[i])) {
+                } else if (Integer.parseInt(solution[i]) < Integer.parseInt(combinaisonOrdi[i])) {
                     reponse += "+";
                 } else
                     reponse += "=";

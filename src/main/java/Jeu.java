@@ -23,7 +23,7 @@ public  abstract class Jeu {
     protected String reponse = "";
     protected String nb;
     protected String combiOrdi;
-    protected String[] solution3;
+    protected String[] solution;
     protected Integer[] propositionOrdi;
 
 
